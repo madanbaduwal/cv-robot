@@ -6,7 +6,7 @@ Introduction :
 # Demo
 
 ### Object detection
-![object detection](https://github.com/madanb-nicn/robot/blob/dev/mina/src/ai/cv/nodes/object_detection/reports/Object_detection.gif)
+![object detection](https://github.com/MadanBaduwal/robot/blob/main/mina/src/ai/cv/nodes/object_detection/reports/Object_detection.gif)
 
 
 Project Organization
