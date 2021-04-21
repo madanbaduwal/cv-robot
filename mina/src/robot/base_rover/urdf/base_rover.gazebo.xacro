@@ -1,0 +1,282 @@
+<?xml version="1.0"?>
+
+<!-- some links:
+  realsense d415 features:
+  https://www.framos.com/en/depth-camera-d415-starter-kit-20745?gclid=EAIaIQobChMIkvT-tpbu7wIV23wrCh3kDAV8EAAYASAAEgIDAvD_BwE 
+
+  By: Subash Ghimire
+  
+-->
+<robot name="base_rover_sim"
+  xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- configuration parameters are listed below -->
+  <xacro:arg name="laser_visual" default="true"/>
+  <xacro:arg name="imu_visual" default="false"/>
+
+  <!-- connfiguring realsense camera -->
+  <xacro:property name="image_visual" value="false"/> 
+  <xacro:property name="depth_visual" value="false"/>
+  <xacro:property name="inf1_visual" value="false"/>
+  <xacro:property name="inf2_visual" value="false"/>
+  <xacro:property name="camera_update_rate" value="10"/>
+  <xacro:property name="camera_publish_rate" value="5"/>
+
+  <!-- parameters consumed by the realsense camera plugin -->
+  <xacro:property name="reference_link" value="camera"/>
+  <xacro:property name="camera_name" value="sensor_d415"/>
+  <xacro:property name="topics_ns" value="camera"/>
+  <xacro:property name="depth_optical_frame" value="camera_depth_optical_frame"/>
+  <xacro:property name="color_optical_frame" value="camera_color_optical_frame"/>
+  <xacro:property name="infrared1_optical_frame" value="camera_right_ir_frame"/>
+  <xacro:property name="infrared2_optical_frame" value="camera_left_ir_frame"/>
+  <xacro:property name="publish_pointcloud" value="false"/>
+  <!-- <xacro:macro name="gazebo_d435" params="camera_name reference_link
+    topics_ns depth_optical_frame color_optical_frame infrared1_optical_frame infrared2_optical_frame publish_pointcloud:=true"> -->
+
+  <gazebo reference="base_footprint">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <gazebo reference="base_link">
+    <material>Gazebo/brown</material>
+    <kp>1e+10</kp>
+    <kd>10.0</kd>
+  </gazebo>
+
+  <gazebo reference="left_wheel">
+    <mu1>1.16</mu1>
+    <mu2>1.16</mu2>
+    <kp>1e+10</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+    <fdir1>1 1 0</fdir1>
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="right_wheel">
+    <mu1>1.16</mu1>
+    <mu2>1.16</mu2>
+    <kp>1e+10</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+    <fdir1>1 1 0</fdir1>
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="caster_1">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="caster_2">
+    <!-- Coeff. of friction for rubber is 1.16 -->
+    <mu1>1.16</mu1>
+    <mu2>1.16</mu2>
+    <!-- kp and kd determine rigidity of material -->
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>1.0</maxVel>
+    <material>Gazebo/caster_2</material>
+  </gazebo>
+
+  <!-- A plugin for implementing the differential drive in gazebo simulation -->
+  <gazebo>
+    <plugin name="base_rover_controller" filename="libgazebo_ros_diff_drive.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometrySource>world</odometrySource>
+      <publishOdomTF>true</publishOdomTF>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <publishWheelTF>false</publishWheelTF>
+      <publishTf>true</publishTf>
+      <publishWheelJointState>true</publishWheelJointState>
+      <legacyMode>false</legacyMode>
+      <updateRate>30</updateRate>
+      <leftJoint>left_wheel_joint</leftJoint>
+      <rightJoint>right_wheel_joint</rightJoint>
+      <wheelSeparation>0.320</wheelSeparation>
+      <wheelDiameter>0.096</wheelDiameter>
+      <wheelAcceleration>2</wheelAcceleration>
+      <wheelTorque>10</wheelTorque>
+      <rosDebugLevel>na</rosDebugLevel>
+    </plugin>
+  </gazebo>
+
+  <!-- Lidar plugin emulator and adding sensor to lidar frame in a single gazebo tag -->
+  <gazebo reference="base_scan">
+    <material>Gazebo/FlatBlack</material>
+    <sensor type="ray" name="lds_lfcd_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>$(arg laser_visual)</visualize>
+      <update_rate>5</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>0.0</min_angle>
+            <max_angle>6.28319</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.120</min>
+          <max>3.5</max>
+          <resolution>0.015</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_lds_lfcd_controller" filename="libgazebo_ros_laser.so">
+        <topicName>scan</topicName>
+        <frameName>base_footprint</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
+  <!-- Adding the sensors and params to the realsense camera link from the urdf-->
+  <xacro:property name="deg_to_rad" value="0.01745329251994329577" />
+  <gazebo reference="${reference_link}">
+    <self_collide>0</self_collide>
+    <enable_wind>0</enable_wind>
+    <kinematic>0</kinematic>
+    <gravity>1</gravity>
+    <mu2>1</mu2>
+    <fdir1>0 0 0</fdir1>
+    <kp>1e+13</kp>
+    <kd>1</kd>
+    <sensor name="${camera_name}color" type="camera">
+      <camera name="${camera_name}">
+        <horizontal_fov>${65*deg_to_rad}</horizontal_fov>
+        <vertical_fov>${40*deg_to_rad}</vertical_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>RGB_INT8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>${camera_update_rate}</update_rate>
+      <visualize>${image_visual}</visualize>
+    </sensor>
+    <sensor name="${camera_name}ired1" type="camera">
+      <camera name="${camera_name}">
+        <horizontal_fov>${65*deg_to_rad}</horizontal_fov>
+        <vertical_fov>${40*deg_to_rad}</vertical_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>L_INT8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.05</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>${camera_update_rate}</update_rate>
+      <visualize>${inf1_visual}</visualize>
+    </sensor>
+    <sensor name="${camera_name}ired2" type="camera">
+      <camera name="${camera_name}">
+        <horizontal_fov>${65*deg_to_rad}</horizontal_fov>
+        <vertical_fov>${40*deg_to_rad}</vertical_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>L_INT8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.05</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>${camera_update_rate}</update_rate>
+      <visualize>${inf2_visual}</visualize>
+    </sensor>
+    <sensor name="${camera_name}depth" type="depth">
+      <camera name="${camera_name}">
+        <horizontal_fov>${65*deg_to_rad}</horizontal_fov>
+        <vertical_fov>${40*deg_to_rad}</vertical_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>100</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.100</stddev>
+        </noise>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>${camera_update_rate}</update_rate>
+      <visualize>${depth_visual}</visualize>
+    </sensor>
+  </gazebo>
+
+  <!-- This is a plugin for emulating the realsense camera series -->
+  <gazebo>
+    <plugin name="${topics_ns}" filename="librealsense_gazebo_plugin.so">
+      <prefix>${camera_name}</prefix>
+      <depthUpdateRate>${camera_publish_rate}</depthUpdateRate>
+      <colorUpdateRate>${camera_publish_rate}</colorUpdateRate>
+      <infraredUpdateRate>${camera_update_rate}</infraredUpdateRate>
+      <depthTopicName>depth/image_raw</depthTopicName>
+      <depthCameraInfoTopicName>depth/camera_info</depthCameraInfoTopicName>
+      <colorTopicName>color/image_raw</colorTopicName>
+      <colorCameraInfoTopicName>color/camera_info</colorCameraInfoTopicName>
+      <infrared1TopicName>infra1/image_raw</infrared1TopicName>
+      <infrared1CameraInfoTopicName>infra1/camera_info</infrared1CameraInfoTopicName>
+      <infrared2TopicName>infra2/image_raw</infrared2TopicName>
+      <infrared2CameraInfoTopicName>infra2/camera_info</infrared2CameraInfoTopicName>
+      <colorOpticalframeName>${color_optical_frame}</colorOpticalframeName>
+      <depthOpticalframeName>${depth_optical_frame}</depthOpticalframeName>
+      <infrared1OpticalframeName>${infrared1_optical_frame}</infrared1OpticalframeName>
+      <infrared2OpticalframeName>${infrared2_optical_frame}</infrared2OpticalframeName>
+      <rangeMinDepth>0.2</rangeMinDepth>
+      <rangeMaxDepth>10.0</rangeMaxDepth>
+      <pointCloud>${publish_pointcloud}</pointCloud>
+      <pointCloudTopicName>depth/color/points</pointCloudTopicName>
+      <pointCloudCutoff>0.25</pointCloudCutoff>
+      <pointCloudCutoffMax>9.0</pointCloudCutoffMax>
+    </plugin>
+  </gazebo>
+
+</robot>

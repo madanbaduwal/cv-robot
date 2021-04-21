@@ -1,0 +1,25 @@
+<launch>
+
+  <arg name="x_pos" default="-2.0"/>
+  <arg name="y_pos" default="-0.5"/>
+  <arg name="z_pos" default="0.05"/>
+
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!-- <arg name="world_name" value="$(find base_rover)/worlds/base_rover_world.world"/> -->
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- <node pkg="tf" type="static_transform_publisher" name="map_odom" args="0 0 0 0 0 0 map odom 100" /> -->
+  <node name="joint_state_publisher" type="joint_state_publisher" pkg="joint_state_publisher" />
+  <node name="robot_state_publisher" type="robot_state_publisher" pkg="robot_state_publisher" />
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find base_rover)/urdf/base_rover.urdf.xacro" />
+  
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" output="screen"  args="-urdf -model base_rover -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -param robot_description" />
+
+</launch>

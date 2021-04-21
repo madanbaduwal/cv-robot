@@ -1,0 +1,321 @@
+<?xml version="1.0" ?>
+
+<!-- some links:
+  realsense d415 features:
+  https://www.framos.com/en/depth-camera-d415-starter-kit-20745?gclid=EAIaIQobChMIkvT-tpbu7wIV23wrCh3kDAV8EAAYASAAEgIDAvD_BwE
+
+  By: Subash Ghimire
+  
+-->
+
+<robot name="base_rover"
+  xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find base_rover)/urdf/common_properties.xacro"/>
+  <xacro:include filename="$(find base_rover)/urdf/base_rover.gazebo.xacro"/>
+  <!-- <xacro:include filename="$(find base_rover)/urdf/_d415.urdf.xacro"/> -->
+
+
+  <!-- The base footprint represents the bottom frame of the base link -->
+  <link name="base_footprint"/>
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <!-- <origin xyz="0.0 0.0 0.010" rpy="0 0 0"/> -->
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+  </joint>
+
+
+  <!-- model of the base link that houses other components of the robot -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.057477 -9.7875E-05 0.12862" rpy="0 0 0" />
+      <mass value="7.8918" />
+      <inertia ixx="0.042683" ixy="8.2082E-07" ixz="0.00027351" iyy="0.026957" iyz="8.4315E-08" izz="0.038758" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/base_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+
+  <!-- model of right wheel and its joint to the main link -->
+  <link name="left_wheel">
+    <inertial>
+      <origin xyz="0 -5.55111512312578E-17 0.0135637979902087" rpy="0 0 0" />
+      <mass value="0.0457219540821825" />
+      <inertia ixx="3.44093168862476E-05" ixy="-1.18584612615602E-20" ixz="5.89136992904237E-21" iyy="3.44093168862476E-05" iyz="4.68923950119126E-21" izz="6.75162389361224E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/left_wheel.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.666666666666667 0.694117647058824 0.764705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/left_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="left_wheel_joint" type="continuous">
+    <origin xyz="-0.092484 0.14737 0.0303" rpy="1.5708 -0.41646 3.1416" />
+    <parent link="base_link" />
+    <child link="left_wheel" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <!-- model of right wheel and its joint to the main link -->
+  <link name="right_wheel">
+    <inertial>
+      <origin xyz="-2.77555756156289E-17 1.11022302462516E-16 -0.0135637979902087" rpy="0 0 0" />
+      <mass value="0.0457219540821825" />
+      <inertia ixx="3.44093168862476E-05" ixy="-5.0821976835258E-21" ixz="-4.47596999571715E-21" iyy="3.44093168862476E-05" iyz="-9.19422840643652E-23" izz="6.75162389361224E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/right_wheel.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.666666666666667 0.694117647058824 0.764705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/right_wheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="right_wheel_joint" type="continuous">
+    <origin xyz="-0.092484 -0.14739 0.0303" rpy="-1.5708 -0.67793 0" />
+    <parent link="base_link" />
+    <child link="right_wheel" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+
+  <!-- model of caster wheel with different meshes and their joints -->
+  <link name="caster_1">
+    <inertial>
+      <origin xyz="-2.2310650454882E-07 0.0325334036649228 0.00179664774647681" rpy="0 0 0" />
+      <mass value="0.0270345065463824" />
+      <inertia ixx="4.65435975958995E-06" ixy="-6.92264167786935E-11" ixz="1.06519261908349E-10" iyy="6.78298186019927E-06" iyz="4.76631764870091E-08" izz="5.59304810890847E-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/caster_1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.666666666666667 0.694117647058824 0.764705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/caster_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="caster_1_joint" type="continuous">
+    <origin xyz="0.18877 0 0.001764" rpy="1.5708 0 -1.2574" />
+    <parent link="base_link" />
+    <child link="caster_1" />
+    <axis xyz="0 1 0" />
+  </joint>
+  <link name="caster_2">
+    <inertial>
+      <origin xyz="-2.49715642053339E-08 5.55111512312578E-17 5.55111512312578E-17" rpy="0 0 0" />
+      <mass value="0.0629768985162118" />
+      <inertia ixx="1.60296448440037E-05" ixy="2.11758236813575E-22" ixz="1.27054942088145E-21" iyy="1.5537366946411E-05" iyz="1.05879118406788E-21" izz="1.55373669464109E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/caster_2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.666666666666667 0.694117647058824 0.764705882352941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://base_rover/meshes/caster_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="caster_2_joint" type="continuous">
+    <origin xyz="0 0.00456 0.014907" rpy="3.0684 0 0" />
+    <parent link="caster_1" />
+    <child link="caster_2" />
+    <axis xyz="1 0 0" />
+  </joint>
+
+
+  <!-- Model of the lidar sensor joint and the mesh link -->
+  <joint name="scan_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_scan"/>
+    <origin xyz="0 0 0.25" rpy="0 0 0" />
+  </joint>
+  <link name="base_scan">
+    <visual>
+      <origin xyz="0 0 0.0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://base_rover/meshes/lds.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="dark"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0.015 0 -0.0065" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.0315" radius="0.055"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.114" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001" />
+    </inertial>
+  </link>
+
+  <!-- model of the realsense camera with different sensors its has and their frames -->
+  <!-- <xacro:macro name="sensor_d415" params="name:=camera parent:=base_link"> -->
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+
+  <!-- The following values are approximate, and the camera node
+     publishing TF values with actual calibrated camera extrinsic values -->
+  <xacro:property name="d415_cam_depth_to_left_ir_offset" value="0.0"/>
+  <xacro:property name="d415_cam_depth_to_right_ir_offset" value="-0.055"/>
+  <xacro:property name="d415_cam_depth_to_color_offset" value="0.015"/>
+
+  <!-- The following values model the aluminum peripherial case for the
+  	d415 camera, with the camera joint represented by the actual
+  	peripherial camera tripod mount -->
+  <xacro:property name="d415_cam_width" value="0.099"/>
+  <xacro:property name="d415_cam_height" value="0.023"/>
+  <xacro:property name="d415_cam_depth" value="0.02005"/>
+  <xacro:property name="d415_cam_mount_from_center_offset" value="0.00987"/>
+
+  <!-- The following offset is relative the the physical d415 camera peripherial
+  	camera tripod mount -->
+  <xacro:property name="d415_cam_depth_px" value="${d415_cam_mount_from_center_offset}"/>
+  <xacro:property name="d415_cam_depth_py" value="0.020"/>
+  <xacro:property name="d415_cam_depth_pz" value="${d415_cam_height/2}"/>
+
+  <material name="camera">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+
+  <joint name="camera_joint" type="fixed">
+    <origin xyz="0.1166 0.02 0.17092" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="camera" />
+    <axis xyz="0 0 0" />
+  </joint>
+
+
+  <link name="camera">
+    <visual>
+      <origin xyz="${d415_cam_mount_from_center_offset} ${-d415_cam_depth_py} 0" rpy="${M_PI/2} 0 ${M_PI/2}"/>
+      <geometry>
+        <mesh filename="package://base_rover/meshes/d415.STL" />
+      </geometry>
+      <material name="camera"/>
+    </visual>
+    <collision>
+      <origin xyz="0 ${-d415_cam_depth_py} 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${d415_cam_depth} ${d415_cam_width} ${d415_cam_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- The following are not reliable values, and should not be used for modeling -->
+      <mass value="0.564" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257" />
+    </inertial>
+  </link>
+
+  <!-- camera depth joints and links -->
+  <joint name="camera_depth_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="camera"/>
+    <child link="camera_depth_frame" />
+  </joint>
+  <link name="camera_depth_frame"/>
+
+  <joint name="camera_depth_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_depth_optical_frame" />
+  </joint>
+  <link name="camera_depth_optical_frame"/>
+
+  <!-- camera left IR joints and links -->
+  <joint name="camera_left_ir_joint" type="fixed">
+    <origin xyz="0 ${d415_cam_depth_to_left_ir_offset} 0" rpy="0 0 0" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_left_ir_frame" />
+  </joint>
+  <link name="camera_left_ir_frame"/>
+
+  <joint name="camera_left_ir_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+    <parent link="camera_left_ir_frame" />
+    <child link="camera_left_ir_optical_frame" />
+  </joint>
+  <link name="camera_left_ir_optical_frame"/>
+
+  <!-- camera right IR joints and links -->
+  <joint name="camera_right_ir_joint" type="fixed">
+    <origin xyz="0 ${d415_cam_depth_to_right_ir_offset} 0" rpy="0 0 0" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_right_ir_frame" />
+  </joint>
+  <link name="camera_right_ir_frame"/>
+
+  <joint name="camera_right_ir_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+    <parent link="camera_right_ir_frame" />
+    <child link="camera_right_ir_optical_frame" />
+  </joint>
+  <link name="camera_right_ir_optical_frame"/>
+
+  <!-- camera color joints and links -->
+  <joint name="camera_color_joint" type="fixed">
+    <origin xyz="0 ${d415_cam_depth_to_color_offset} 0" rpy="0 0 0" />
+    <parent link="camera_depth_frame" />
+    <child link="camera_color_frame" />
+  </joint>
+  <link name="camera_color_frame"/>
+
+  <joint name="camera_color_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+    <parent link="camera_color_frame" />
+    <child link="camera_color_optical_frame" />
+  </joint>
+  <link name="camera_color_optical_frame"/>
+
+</robot>

@@ -1,0 +1,5 @@
+<launch>
+  <arg name="stage" default="1"/>
+  <param name="stage_number"  value="$(arg stage)"/>
+  <node pkg="computer_vision" type="computer_vision_node" name="computer_vision_node" output="screen" />
+</launch>
