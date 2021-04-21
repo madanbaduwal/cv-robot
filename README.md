@@ -1,7 +1,19 @@
 Mina
 ==============================
+# Project setup
+``` 
+pip3 install -r requirements.txt
 
-Table of Contents
+cd mina
+
+catkin_make
+
+roslaunch base_rover base_rover.launch   # most important when we lunch this , all sensor throw data throw node, so we just need to collect this data and do process
+
+
+```
+
+# Table of Contents
 =================
 
   * [Computer Vision](https://github.com/madanb-nicn/robot/tree/dev/mina/src/ai/CV)
