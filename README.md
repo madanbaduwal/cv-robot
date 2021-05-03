@@ -1,4 +1,5 @@
 Mina
+
 ==============================
 # Project setup
 ``` 
@@ -25,3 +26,5 @@ roslaunch base_rover base_rover.launch   # most important when we lunch this , a
   * [NLP](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/nlp)
     * [Chatbot](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/nlp/chatbot)
   * [RL](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/rl) 
+
+# Note : In ros everythin is publisher and subscriber, they are the python module with collect data from sensor and publish data for sensor.
