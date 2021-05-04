@@ -1,6 +1,18 @@
 Mina
-
 ==============================
+
+# About 
+
+Mina is an autonomous robot.  Integration of ros framework with artificial intelligence package is crucial work. In mina, I am trying to integrate ros with the python package.
+In technical terms, ros publisher publishes data sensor data and I subscribe that data and fit this data to a machine learning model for prediction.
+After the prediction machine learning model did some decisions that decision are published by the publisher and subscriber subscribe this decision and to act.
+
+## [Robot Operating System (ROS)](http://wiki.ros.org/Documentation)
+
+I follow [ros wiki](http://wiki.ros.org/ROS/Tutorials) for my ros study.
+Here is the notebook for ros study.
+
+
 # Project setup
 ``` 
 pip3 install -r requirements.txt
