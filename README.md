@@ -33,7 +33,7 @@ roslaunch base_rover base_rover.launch   # most important when we lunch this , a
     * [Object Detection](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/cv/nodes/object_detection)
     * [Face recognition](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/cv/nodes/face-recognition)
     * [Face recognition azurefaceapi](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/cv/nodes/face_recognition)
-    * ![object detection](https://github.com/MadanBaduwal/robot/blob/main/Results/mina:object%20detection.gif)
+    * ![object detection](https://github.com/MadanBaduwal/ros_robot/blob/main/mina%20object%20detection.gif)
 
   * [NLP](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/nlp)
     * [Chatbot](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/nlp/chatbot)
