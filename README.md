@@ -39,4 +39,4 @@ roslaunch base_rover base_rover.launch   # most important when we lunch this , a
     * [Chatbot](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/nlp/chatbot)
   * [RL](https://github.com/MadanBaduwal/robot/tree/main/mina/src/ai/rl) 
 
-**Note : In ros everythin is publisher and subscriber, they are the python module with collect data from sensor and publish data for sensor.**
+**Note : In ros everythin is publisher and subscriber, they are the python module with collect data from sensor and publish data for sensor.There are lots of library in ros which collect data from sensor(in .yaml file)**
