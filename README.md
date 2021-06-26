@@ -1,9 +1,9 @@
-Mina
+Ai base robot
 ==============================
 
 # About 
 
-Mina is an autonomous robot.  Integration of ros framework with artificial intelligence package is crucial work. In mina, I am trying to integrate ros with the python package.
+Ai base robot is an autonomous robot.  Integration of ros framework with artificial intelligence package is crucial work. In mina, I am trying to integrate ros with the python package.
 In technical terms, ros publisher publishes data sensor data and I subscribe that data and fit this data to a machine learning model for prediction.
 After the prediction machine learning model did some decisions that decision are published by the publisher and subscriber subscribe this decision and to act.
 
