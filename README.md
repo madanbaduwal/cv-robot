@@ -6,7 +6,13 @@ Ai base robot is an autonomous robot.  Integration of ros framework with artific
 In technical terms, ros publisher publishes data sensor data and I subscribe that data and fit this data to a machine learning model for prediction.
 After the prediction machine learning model did some decisions that decision are published by the publisher and subscriber subscribe this decision and to act.
 
-  * ![object detection](https://github.com/MadanBaduwal/ros_robot/blob/main/mina%20object%20detection.gif)
+  ![Gazebo Simulation](https://github.com/MadanBaduwal/ros_robot/blob/main/mina%20object%20detection.gif)
+  
+   Gif : Gazebo Simulation
+   
+  ![Real life implementation](https://github.com/MadanBaduwal/robot/blob/main/AI%20autonomous%20robot.gif)
+  
+   Gif : Real life implementation
 
 # Table of Contents
 =================
