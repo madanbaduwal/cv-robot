@@ -1,4 +1,4 @@
-Ai base robot
+Ai based autonomous robot
 ==============================
 
 ## About
